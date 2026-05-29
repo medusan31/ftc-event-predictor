@@ -1,5 +1,11 @@
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
+  /* Theme colors (updated via JS) */
+  --neon-primary:   #00f5ff;
+  --neon-secondary: #ff006e;
+  --neon-accent:    #0080ff;
+
+  /* Legacy colors (kept for backward compat, can reference themes) */
   --neon-cyan:   #00f5ff;
   --neon-pink:   #ff006e;
   --neon-green:  #00ff41;
@@ -56,6 +62,8 @@ body {
   display: flex;
   align-items: center;
   gap: 18px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 .header-icon {
   font-size: 40px;
@@ -75,6 +83,45 @@ body {
   color: var(--text-dim);
   letter-spacing: 1px;
   margin-top: 4px;
+}
+
+/* ── Theme Switcher ─────────────────────────────────────── */
+.theme-switcher {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.theme-btn {
+  background: rgba(0, 245, 255, .08);
+  border: 1px solid rgba(0, 245, 255, .2);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+  letter-spacing: .5px;
+}
+.theme-btn:hover {
+  background: rgba(0, 245, 255, .15);
+  border-color: var(--neon-primary);
+  color: var(--neon-primary);
+  box-shadow: 0 0 12px rgba(0, 245, 255, .2);
+}
+.theme-btn.theme-active {
+  background: rgba(0, 245, 255, .2);
+  border-color: var(--neon-primary);
+  color: var(--neon-primary);
+  box-shadow: 0 0 16px var(--neon-primary), inset 0 0 8px rgba(0, 245, 255, .1);
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .theme-switcher { gap: 4px; }
+  .theme-btn { padding: 4px 8px; font-size: 11px; }
 }
 
 /* ── Main ───────────────────────────────────────────────── */

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import EventSearch from './components/EventSearch';
 import EventView from './components/EventView';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import { ThemeProvider } from './context/ThemeContext';
 import { EventSearchResult } from './types';
 import './styles/neon-theme.css';
 import './index.css';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventSearchResult | null>(null);
 
   return (
@@ -17,6 +19,7 @@ const App: React.FC = () => {
             <h1 className="app-title">FTC EVENT PREDICTOR</h1>
             <p className="app-subtitle">OPR-based match outcome prediction</p>
           </div>
+          <ThemeSwitcher />
         </div>
       </header>
 
@@ -43,5 +46,11 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+const App: React.FC = () => (
+  <ThemeProvider>
+    <AppContent />
+  </ThemeProvider>
+);
 
 export default App;
