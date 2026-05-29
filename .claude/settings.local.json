@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; npm run build 2>&1 | Select-Object -Last 15)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; npm run build 2>&1 | Select-Object -Last 20)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; $env:GENERATE_SOURCEMAP=\"false\"; npm run build 2>&1 | Select-Object -Last 25)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; $env:GENERATE_SOURCEMAP=\"false\"; npm run build 2>&1 | Select-Object -Last 15)",
+      "PowerShell(Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)",
+      "PowerShell(Get-ExecutionPolicy -List)",
+      "WebSearch",
+      "Read(//c/tmp/**)",
+      "Bash(gh repo *)",
+      "WebFetch(domain:ftcscout.org)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; $env:BROWSER=\"none\"; node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli.js\" start 2>&1 | Select-Object -First 2)",
+      "PowerShell(cd \"c:\\\\ftc_predictor\\\\ftc-event-predictor\"; $env:NODE_OPTIONS=\"--openssl-legacy-provider\"; npx react-scripts start 2>&1 | Select-Object -First 10)"
+    ]
+  }
+}

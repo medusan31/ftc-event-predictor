@@ -1,0 +1,6 @@
+/* EventSearch-specific overrides — base styles live in neon-theme.css */
+
+.event-info-block { flex: 1; }
+
+.ev-location { }
+.ev-date     { }
