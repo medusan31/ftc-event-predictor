@@ -26,7 +26,7 @@ const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, 
                 <th>W</th>
                 <th>L</th>
                 <th>T</th>
-                <th>RP</th>
+                <th>AOPR</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@ const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, 
               <th>W</th>
               <th>L</th>
               <th>T</th>
-              <th>OPR</th>
+              <th>AOPR</th>
             </tr>
           </thead>
           <tbody>

@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import EventSearch from './components/EventSearch';
 import EventView from './components/EventView';
-import ThemeSwitcher from './components/ThemeSwitcher';
-import { ThemeProvider } from './context/ThemeContext';
+import ThemePicker, { Theme } from './components/ThemePicker';
 import { EventSearchResult } from './types';
 import './styles/neon-theme.css';
+import './styles/themes.css';
 import './index.css';
 
-const AppContent: React.FC = () => {
+const App: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventSearchResult | null>(null);
+  const [theme, setTheme] = useState<Theme>('neon');
+
+  useEffect(() => {
+    if (theme === 'neon') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }, [theme]);
 
   return (
     <div className="app-container">
       <header className="app-header">
         <div className="header-content">
-          <span className="header-icon">⚡</span>
+          <span className="header-icon">&#9889;</span>
           <div className="header-text">
             <h1 className="app-title">FTC EVENT PREDICTOR</h1>
             <p className="app-subtitle">OPR-based match outcome prediction</p>
           </div>
-          <ThemeSwitcher />
+          <ThemePicker theme={theme} onChange={setTheme} />
         </div>
       </header>
 
@@ -40,17 +49,16 @@ const AppContent: React.FC = () => {
         <p>
           Data from{' '}
           <span className="neon-text-cyan">FTCScout</span>
-          {' '}· Season OPR used for all predictions
+          {' '}&middot; Season OPR used for all predictions
+        </p>
+        <p style={{ marginTop: '6px', fontSize: '12px', opacity: 0.6 }}>
+          Inspired by{' '}
+          <span className="neon-text-cyan">FRC Statbotics</span>
         </p>
       </footer>
     </div>
   );
 };
 
-const App: React.FC = () => (
-  <ThemeProvider>
-    <AppContent />
-  </ThemeProvider>
-);
-
 export default App;
+

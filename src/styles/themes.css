@@ -1,0 +1,137 @@
+/* ── Synthwave ───────────────────────────────────────────── */
+:root[data-theme="synthwave"] {
+  --neon-cyan:   #ff00ff;
+  --neon-pink:   #ff2060;
+  --neon-green:  #00ff9f;
+  --neon-purple: #cc00ff;
+  --neon-blue:   #8844ff;
+  --neon-orange: #ff6b35;
+  --neon-yellow: #ffcc00;
+  --dark-bg:     #0e0019;
+  --dark-card:   #180030;
+  --dark-card-2: #210042;
+  --accent-mid:  #3a0070;
+  --text-dim:    rgba(255, 0, 255, 0.50);
+  --border-dim:  rgba(255, 0, 255, 0.18);
+}
+:root[data-theme="synthwave"] body {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(255,0,255,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(136,68,255,.06) 0%, transparent 60%);
+}
+:root[data-theme="synthwave"] .neon-card::after {
+  background: linear-gradient(90deg, transparent, rgba(255,0,255,.5), transparent);
+}
+
+/* ── Matrix ─────────────────────────────────────────────── */
+:root[data-theme="matrix"] {
+  --neon-cyan:   #00ff41;
+  --neon-pink:   #ff2200;
+  --neon-green:  #00ff41;
+  --neon-purple: #00cc00;
+  --neon-blue:   #0055ff;
+  --neon-orange: #ff6600;
+  --neon-yellow: #aaff00;
+  --dark-bg:     #000000;
+  --dark-card:   #001200;
+  --dark-card-2: #001e00;
+  --accent-mid:  #002e00;
+  --text-dim:    rgba(0, 255, 65, 0.50);
+  --border-dim:  rgba(0, 255, 65, 0.18);
+}
+:root[data-theme="matrix"] body {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0,255,65,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,200,30,.04) 0%, transparent 60%);
+}
+:root[data-theme="matrix"] .neon-card::after {
+  background: linear-gradient(90deg, transparent, rgba(0,255,65,.5), transparent);
+}
+
+/* ── Amber ──────────────────────────────────────────────── */
+:root[data-theme="amber"] {
+  --neon-cyan:   #ffb300;
+  --neon-pink:   #ff4422;
+  --neon-green:  #ffd700;
+  --neon-purple: #ff8c00;
+  --neon-blue:   #4488ff;
+  --neon-orange: #ff6b35;
+  --neon-yellow: #ffea00;
+  --dark-bg:     #0a0600;
+  --dark-card:   #180e00;
+  --dark-card-2: #241600;
+  --accent-mid:  #3a2200;
+  --text-dim:    rgba(255, 179, 0, 0.50);
+  --border-dim:  rgba(255, 179, 0, 0.18);
+}
+:root[data-theme="amber"] body {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(255,179,0,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255,107,53,.05) 0%, transparent 60%);
+}
+:root[data-theme="amber"] .neon-card::after {
+  background: linear-gradient(90deg, transparent, rgba(255,179,0,.5), transparent);
+}
+
+/* ── Ice ────────────────────────────────────────────────── */
+:root[data-theme="ice"] {
+  --neon-cyan:   #7dd4fc;
+  --neon-pink:   #fb7185;
+  --neon-green:  #6ee7b7;
+  --neon-purple: #a78bfa;
+  --neon-blue:   #60a5fa;
+  --neon-orange: #fb923c;
+  --neon-yellow: #fde68a;
+  --dark-bg:     #060d1a;
+  --dark-card:   #0d1b2e;
+  --dark-card-2: #152540;
+  --accent-mid:  #1e3555;
+  --text-dim:    rgba(125, 212, 252, 0.50);
+  --border-dim:  rgba(125, 212, 252, 0.18);
+}
+:root[data-theme="ice"] body {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(125,212,252,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(167,139,250,.05) 0%, transparent 60%);
+}
+:root[data-theme="ice"] .neon-card::after {
+  background: linear-gradient(90deg, transparent, rgba(125,212,252,.5), transparent);
+}
+
+/* ── Theme picker widget ─────────────────────────────────── */
+.theme-picker {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 5px 12px 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .5px;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.theme-btn:hover {
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.8);
+}
+.theme-btn-active {
+  background: rgba(255,255,255,.06);
+}
+.theme-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
