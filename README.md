@@ -84,7 +84,11 @@ This creates a `build/` folder of static files ready to deploy anywhere.
 
 1. Search for an event by name or code and pick a season
 2. The app fetches match schedules and team stats from the FTCScout GraphQL API
-3. For each team, it finds their **highest OPR from all events they attended before this one** — this avoids using future data when simulating past events
+3. For each team, a **blended OPR** is calculated:
+   - If the team has attended prior events this season → average their **peak single-event OPR** from those events with their **OPR at the event being predicted**
+   - If it's their first event this season → use their OPR at the event being predicted as the fallback
+   - "Peak prior OPR" = the highest OPR they achieved at any single completed event before this one (e.g. if they got 150, 200, 180 at three prior events, peak = 200)
+   - This blending balances historical peak performance with current-event form
 4. For each qual match, red and blue alliance OPRs are summed → higher sum = predicted winner
 5. Win probability is calculated using a sigmoid function based on the OPR gap
 6. Surrogate match results are excluded from that team's ranking prediction (but still shown in the match)
