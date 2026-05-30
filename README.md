@@ -1,6 +1,6 @@
 # FTC Event Predictor
 
-A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive Power Rating) data from [FTCScout](https://ftcscout.org).
+A web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive Power Rating) data from [FTCScout](https://ftcscout.org).
 
 # Mission Statement
 As an FTC sweat FTCScout and its data has always been interesting and helpful to me, and I never thought much past it, but when I started hyper following FRC I learned about all the programs they have like statbotics, which heavily inspired this project, and thought to myself, "Why doesn't something that predicts events based on Strength of Schedule exist for FTC?" I brainstormed a bit and settled on an algorithm that averages a team's peak end of event opr from earlier in the season and their OPR from the event being predicted/simulated to create their AOPR (average opr) and for each match added up the average opr of the two bots on each alliance and weighed them against the other. Issue is, I suck at coding, sooooo I made Claude do everything for me. That's pretty much it.
