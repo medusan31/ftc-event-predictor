@@ -10,13 +10,53 @@ interface TeamRankingsProps {
 
 const RANK_ICONS = ['🥇', '🥈', '🥉'];
 
+const exportBtnStyle: React.CSSProperties = {
+  fontSize: '11px',
+  padding: '4px 10px',
+  background: 'transparent',
+  border: '1px solid var(--neon-green)',
+  color: 'var(--neon-green)',
+  borderRadius: '6px',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  marginLeft: 'auto',
+  flexShrink: 0,
+};
+
+const downloadCSV = (csv: string, filename: string) => {
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
 const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, viewMode }) => {
   const useActual = viewMode === 'actual' && actualRankings.length > 0;
+
+  const sorted = [...standings].sort((a, b) => {
+    if (b.predictedWins !== a.predictedWins) return b.predictedWins - a.predictedWins;
+    return b.opr - a.opr;
+  });
+
+  const exportToCSV = () => {
+    const header = ['Rank', 'Team', 'W', 'L', 'T', 'AOPR'];
+    const dataRows = useActual
+      ? actualRankings.map((t, i) => [i + 1, t.teamNumber, t.wins, t.losses, t.ties, t.rp.toFixed(2)])
+      : sorted.map((t, i) => [i + 1, t.teamNumber, t.predictedWins, t.predictedLosses, t.predictedTies, t.opr.toFixed(1)]);
+    const csv = [header, ...dataRows].map(r => r.join(',')).join('\n');
+    downloadCSV(csv, useActual ? 'actual-rankings.csv' : 'predicted-rankings.csv');
+  };
 
   if (useActual) {
     return (
       <div className="team-rankings">
-        <h3 className="panel-title">📊 Actual Rankings</h3>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+          <h3 className="panel-title" style={{ margin: 0 }}>📊 Actual Rankings</h3>
+          <button onClick={exportToCSV} style={exportBtnStyle}>⬇ Export CSV</button>
+        </div>
         <div className="rankings-scroll">
           <table className="rankings-table">
             <thead>
@@ -49,14 +89,12 @@ const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, 
     );
   }
 
-  const sorted = [...standings].sort((a, b) => {
-    if (b.predictedWins !== a.predictedWins) return b.predictedWins - a.predictedWins;
-    return b.opr - a.opr;
-  });
-
   return (
     <div className="team-rankings">
-      <h3 className="panel-title">🔮 Predicted Rankings</h3>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+        <h3 className="panel-title" style={{ margin: 0 }}>🔮 Predicted Rankings</h3>
+        <button onClick={exportToCSV} style={exportBtnStyle}>⬇ Export CSV</button>
+      </div>
       <div className="rankings-scroll">
         <table className="rankings-table">
           <thead>
