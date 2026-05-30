@@ -6,7 +6,7 @@ A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OP
 
 - **Live event search** — search by event name or code (e.g. `FTCCMP1LOVE`)
 - **Season selector** — 2021-2022 through 2025-2026
-- **OPR-based match predictions** — uses each team's season-best OPR from events played *before* the one being simulated, so retroactive simulations are fair
+- **OPR-based match predictions** — uses each team's season-best OPR from events played *before* the one being simulated averaged with the OPR from the event being simulated, but *does not* use match scores from the simulated event, so retroactive simulations are fair
 - **Alliance score prediction** — combined OPR of red vs blue alliance shown for every qual match
 - **Win probability** — sigmoid-based confidence % per match
 - **Prediction accuracy badge** — shows % of correct predictions for completed events
