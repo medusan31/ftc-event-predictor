@@ -1,3 +1,5 @@
+If the setup here is too complicated just do the prerequisites clone the repo then open vscode and give copilot this readme. Ask it to finish all this for you and it should work. If the localhost still wont run properly at the end make sure the dev server is running, and that should be it!
+
 # FTC Event Predictor
 
 A web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive Power Rating) data from [FTCScout](https://ftcscout.org).
