@@ -437,6 +437,11 @@ select option { background: var(--dark-card); color: var(--neon-cyan); }
   color: var(--neon-yellow);
   box-shadow: inset 0 0 12px rgba(255,230,0,.06);
 }
+.view-toggle-btn.active-team {
+  background: linear-gradient(135deg, rgba(0,255,65,.15), rgba(0,200,50,.08));
+  color: var(--neon-green);
+  box-shadow: inset 0 0 12px rgba(0,255,65,.06);
+}
 
 /* ── Two-column layout ──────────────────────────────────── */
 .event-content-grid {

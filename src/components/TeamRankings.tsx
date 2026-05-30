@@ -6,6 +6,7 @@ interface TeamRankingsProps {
   standings: TeamStanding[];
   actualRankings: ActualRanking[];
   viewMode: ViewMode;
+  onTeamClick?: (teamNumber: number) => void;
 }
 
 const RANK_ICONS = ['🥇', '🥈', '🥉'];
@@ -33,7 +34,7 @@ const downloadCSV = (csv: string, filename: string) => {
   URL.revokeObjectURL(url);
 };
 
-const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, viewMode }) => {
+const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, viewMode, onTeamClick }) => {
   const useActual = viewMode === 'actual' && actualRankings.length > 0;
 
   const sorted = [...standings].sort((a, b) => {
@@ -75,7 +76,11 @@ const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, 
                   <td className="cell-rank">
                     {idx < 3 ? RANK_ICONS[idx] : team.rank}
                   </td>
-                  <td className="cell-team">#{team.teamNumber}</td>
+                  <td
+                    className="cell-team"
+                    onClick={onTeamClick ? () => onTeamClick(team.teamNumber) : undefined}
+                    style={onTeamClick ? { cursor: 'pointer', textDecoration: 'underline dotted' } : undefined}
+                  >#{team.teamNumber}</td>
                   <td className="cell-w">{team.wins}</td>
                   <td className="cell-l">{team.losses}</td>
                   <td className="cell-t">{team.ties}</td>
@@ -113,7 +118,11 @@ const TeamRankings: React.FC<TeamRankingsProps> = ({ standings, actualRankings, 
                 <td className="cell-rank">
                   {idx < 3 ? RANK_ICONS[idx] : idx + 1}
                 </td>
-                <td className="cell-team">#{team.teamNumber}</td>
+                <td
+                  className="cell-team"
+                  onClick={onTeamClick ? () => onTeamClick(team.teamNumber) : undefined}
+                  style={onTeamClick ? { cursor: 'pointer', textDecoration: 'underline dotted' } : undefined}
+                >#{team.teamNumber}</td>
                 <td className="cell-w">{team.predictedWins}</td>
                 <td className="cell-l">{team.predictedLosses}</td>
                 <td className="cell-t">{team.predictedTies}</td>

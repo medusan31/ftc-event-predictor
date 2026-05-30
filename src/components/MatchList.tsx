@@ -7,6 +7,7 @@ interface MatchListProps {
   matches: PredictedMatch[];
   viewMode: ViewMode;
   teamOPRs: Map<number, number>;
+  onTeamClick?: (teamNumber: number) => void;
 }
 
 const exportBtnStyle: React.CSSProperties = {
@@ -22,7 +23,7 @@ const exportBtnStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
-const MatchList: React.FC<MatchListProps> = ({ matches, viewMode, teamOPRs }) => {
+const MatchList: React.FC<MatchListProps> = ({ matches, viewMode, teamOPRs, onTeamClick }) => {
   if (matches.length === 0) {
     return (
       <div className="match-list-wrap">
@@ -89,6 +90,7 @@ const MatchList: React.FC<MatchListProps> = ({ matches, viewMode, teamOPRs }) =>
                 match={m}
                 viewMode={viewMode}
                 teamOPRs={teamOPRs}
+                onTeamClick={onTeamClick}
               />
             ))}
           </tbody>

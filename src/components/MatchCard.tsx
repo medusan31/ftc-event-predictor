@@ -6,6 +6,7 @@ interface MatchRowProps {
   match: PredictedMatch;
   viewMode: ViewMode;
   teamOPRs: Map<number, number>;
+  onTeamClick?: (teamNumber: number) => void;
 }
 
 /** Sigmoid win probability for red alliance (0–100 integer) */
@@ -15,7 +16,7 @@ function redWinPct(redOPR: number, blueOPR: number): number {
   return Math.round(100 / (1 + Math.exp(-(redOPR - blueOPR) / sigma)));
 }
 
-const MatchRow: React.FC<MatchRowProps> = ({ match, viewMode, teamOPRs }) => {
+const MatchRow: React.FC<MatchRowProps> = ({ match, viewMode, teamOPRs, onTeamClick }) => {
   const { redTeams, blueTeams, matchNum, hasBeenPlayed } = match;
   const showActual = viewMode === 'actual' && hasBeenPlayed;
 
@@ -39,7 +40,13 @@ const MatchRow: React.FC<MatchRowProps> = ({ match, viewMode, teamOPRs }) => {
     const opr = teamOPRs.get(num) ?? 0;
     return (
       <td key={num} className={`td-team td-${side}${isWinningActual ? ' td-winner' : ''}`}>
-        <span className="t-num">{num}</span>
+        <span
+          className="t-num"
+          onClick={onTeamClick ? () => onTeamClick(num) : undefined}
+          style={onTeamClick ? { cursor: 'pointer', textDecoration: 'underline dotted' } : undefined}
+        >
+          {num}
+        </span>
         <span className="t-opr">{opr > 0 ? opr.toFixed(1) : '—'}</span>
       </td>
     );

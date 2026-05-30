@@ -234,6 +234,97 @@ export async function loadTeamBestOPRs(
   return result;
 }
 
+export interface TeamEventsResult {
+  teamName: string;
+  seasonBestOPR: number;
+  events: EventSearchResult[];
+}
+
+export async function getTeamEvents(teamNumber: number, season: number): Promise<TeamEventsResult> {
+  const data = await gql(
+    `query GetTeamAllEvents($number: Int!, $season: Int!) {
+      teamByNumber(number: $number) {
+        name
+        events(season: $season) {
+          event {
+            code name start end type
+            location { venue city state country }
+          }
+          stats { ${STATS_OPR_FRAGMENTS} }
+        }
+      }
+    }`,
+    { number: teamNumber, season }
+  );
+
+  const team = data?.teamByNumber;
+  const teamName: string = team?.name ?? `Team #${teamNumber}`;
+  const entries: any[] = team?.events ?? [];
+
+  let seasonBestOPR = 0;
+  const mapped: EventSearchResult[] = entries
+    .filter(e => e?.event?.code)
+    .map(e => {
+      const opr = e?.stats?.opr?.totalPoints;
+      if (typeof opr === 'number' && opr > seasonBestOPR) seasonBestOPR = opr;
+      return {
+        code: e.event.code,
+        name: e.event.name ?? e.event.code,
+        start: e.event.start ?? '',
+        end: e.event.end ?? '',
+        season,
+        location: {
+          venue: e.event.location?.venue,
+          city: e.event.location?.city ?? '',
+          state: e.event.location?.state,
+          country: e.event.location?.country ?? '',
+        },
+        type: e.event.type,
+      };
+    });
+
+  return {
+    teamName,
+    seasonBestOPR,
+    events: mapped.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()),
+  };
+}
+
+export async function searchTeams(query: string): Promise<{ number: number; name: string }[]> {
+  if (!query || query.trim().length < 1) return [];
+
+  const results: { number: number; name: string }[] = [];
+  const seen = new Set<number>();
+
+  const addTeam = (t: any) => {
+    if (t && t.number && !seen.has(t.number)) {
+      seen.add(t.number);
+      results.push({ number: t.number, name: t.name ?? `Team #${t.number}` });
+    }
+  };
+
+  const textSearch = gql(
+    `query SearchTeams($q: String!) {
+      teamsSearch(searchText: $q) {
+        number
+        name
+      }
+    }`,
+    { q: query.trim() }
+  ).then(d => (d.teamsSearch ?? []).forEach(addTeam)).catch(() => {});
+
+  const num = parseInt(query.trim(), 10);
+  const numSearch = (!isNaN(num) && num > 0)
+    ? gql(
+        `query TeamByNum($number: Int!) { teamByNumber(number: $number) { number name } }`,
+        { number: num }
+      ).then(d => { if (d.teamByNumber) addTeam(d.teamByNumber); }).catch(() => {})
+    : Promise.resolve();
+
+  await Promise.all([textSearch, numSearch]);
+  return results;
+}
+
 // Legacy export
 export const fetchEventsByName = searchEvents;
 export const fetchEventData = async (n: string) => ({

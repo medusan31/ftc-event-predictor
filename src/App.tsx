@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import EventSearch from './components/EventSearch';
 import EventView from './components/EventView';
+import TeamEventsView from './components/TeamEventsView';
 import ThemePicker, { Theme } from './components/ThemePicker';
 import { EventSearchResult } from './types';
 import './styles/neon-theme.css';
@@ -9,6 +10,7 @@ import './index.css';
 
 const App: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventSearchResult | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<{ number: number; season: number } | null>(null);
   const [theme, setTheme] = useState<Theme>('neon');
 
   useEffect(() => {
@@ -33,16 +35,28 @@ const App: React.FC = () => {
       </header>
 
       <main className="main-content">
-        <EventSearch onEventSelect={setSelectedEvent} />
+        <EventSearch
+          onEventSelect={ev => { setSelectedTeam(null); setSelectedEvent(ev); }}
+          onTeamSelect={(num, season) => { setSelectedEvent(null); setSelectedTeam({ number: num, season }); }}
+          onSeasonChange={s => setSelectedTeam(t => t ? { ...t, season: s } : null)}
+        />
 
-        {selectedEvent && (
+        {selectedTeam ? (
+          <TeamEventsView
+            teamNumber={selectedTeam.number}
+            season={selectedTeam.season}
+            onBack={() => setSelectedTeam(null)}
+            onEventSelect={ev => { setSelectedTeam(null); setSelectedEvent(ev); }}
+          />
+        ) : selectedEvent ? (
           <EventView
             key={`${selectedEvent.code}-${selectedEvent.season}`}
             eventCode={selectedEvent.code}
             season={selectedEvent.season}
             eventName={selectedEvent.name}
+            onTeamClick={num => setSelectedTeam({ number: num, season: selectedEvent.season })}
           />
-        )}
+        ) : null}
       </main>
 
       <footer className="app-footer">

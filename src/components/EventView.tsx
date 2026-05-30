@@ -13,11 +13,12 @@ interface EventViewProps {
   eventCode: string;
   season: number;
   eventName: string;
+  onTeamClick?: (teamNumber: number) => void;
 }
 
 export type ViewMode = 'predicted' | 'actual';
 
-const EventView: React.FC<EventViewProps> = ({ eventCode, season }) => {
+const EventView: React.FC<EventViewProps> = ({ eventCode, season, onTeamClick }) => {
   const [eventData, setEventData] = useState<RawEventData | null>(null);
   const [teamOPRs, setTeamOPRs] = useState<Map<number, number>>(new Map());
   const [loading, setLoading] = useState(true);
@@ -284,10 +285,10 @@ const EventView: React.FC<EventViewProps> = ({ eventCode, season }) => {
 
       <div className="event-content-grid">
         <section className="rankings-panel">
-          <TeamRankings standings={teamStandings} actualRankings={actualRankings} viewMode={viewMode} />
+          <TeamRankings standings={teamStandings} actualRankings={actualRankings} viewMode={viewMode} onTeamClick={onTeamClick} />
         </section>
         <section className="matches-panel">
-          <MatchList matches={predictedMatches} viewMode={viewMode} teamOPRs={teamOPRs} />
+          <MatchList matches={predictedMatches} viewMode={viewMode} teamOPRs={teamOPRs} onTeamClick={onTeamClick} />
         </section>
       </div>
     </div>
