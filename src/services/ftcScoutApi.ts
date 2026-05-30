@@ -250,7 +250,14 @@ export async function getTeamEvents(teamNumber: number, season: number): Promise
             code name start end type
             location { venue city state country }
           }
-          stats { ${STATS_OPR_FRAGMENTS} }
+          stats {
+            ... on TeamEventStats2025 { opr { totalPointsNp } }
+            ... on TeamEventStats2024 { opr { totalPointsNp } }
+            ... on TeamEventStats2023 { opr { totalPointsNp } }
+            ... on TeamEventStats2022 { opr { totalPointsNp } }
+            ... on TeamEventStats2021Trad   { opr { totalPointsNp } }
+            ... on TeamEventStats2020Trad   { opr { totalPointsNp } }
+          }
         }
       }
     }`,
@@ -265,7 +272,7 @@ export async function getTeamEvents(teamNumber: number, season: number): Promise
   const mapped: EventSearchResult[] = entries
     .filter(e => e?.event?.code)
     .map(e => {
-      const opr = e?.stats?.opr?.totalPoints;
+      const opr = e?.stats?.opr?.totalPointsNp;
       if (typeof opr === 'number' && opr > seasonBestOPR) seasonBestOPR = opr;
       return {
         code: e.event.code,
