@@ -43,24 +43,24 @@ const SCORES_FRAGMENTS = `
 `;
 
 const STATS_OPR_FRAGMENTS = `
-  ... on TeamEventStats2025 { opr { totalPoints } }
-  ... on TeamEventStats2024 { opr { totalPoints } }
-  ... on TeamEventStats2023 { opr { totalPoints } }
-  ... on TeamEventStats2022 { opr { totalPoints } }
-  ... on TeamEventStats2021Trad   { opr { totalPoints } }
-  ... on TeamEventStats2021Remote { opr { totalPoints } }
-  ... on TeamEventStats2020Trad   { opr { totalPoints } }
+  ... on TeamEventStats2025 { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2024 { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2023 { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2022 { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2021Trad   { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2021Remote { opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2020Trad   { opr { totalPoints totalPointsNp } }
 `;
 
 // Ranking stats + event OPR — only trad seasons have alliance-based rankings
 const STATS_RANK_FRAGMENTS = `
-  ... on TeamEventStats2025 { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2024 { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2023 { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2022 { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2021Trad { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2020Trad { rank wins losses ties rp opr { totalPoints } }
-  ... on TeamEventStats2019     { rank wins losses ties rp opr { totalPoints } }
+  ... on TeamEventStats2025 { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2024 { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2023 { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2022 { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2021Trad { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2020Trad { rank wins losses ties rp opr { totalPoints totalPointsNp } }
+  ... on TeamEventStats2019     { rank wins losses ties rp opr { totalPoints totalPointsNp } }
 `;
 
 // ── Helpers ───────────────────────────────────────────────────────────────
@@ -176,7 +176,8 @@ export async function getEventDetails(code: string, season: number): Promise<Raw
 async function fetchTeamPeakOPRBeforeDate(
   teamNumber: number,
   season: number,
-  eventStartDate: string
+  eventStartDate: string,
+  useNp: boolean
 ): Promise<number> {
   const data = await gql(
     `query GetTeamEvents($number: Int!, $season: Int!) {
@@ -197,7 +198,7 @@ async function fetchTeamPeakOPRBeforeDate(
   for (const e of events) {
     const t = new Date(e?.event?.start ?? '').getTime();
     if (isNaN(t) || t >= cutoff) continue;
-    const opr = e?.stats?.opr?.totalPoints;
+    const opr = useNp ? e?.stats?.opr?.totalPointsNp : e?.stats?.opr?.totalPoints;
     if (typeof opr === 'number' && opr > 0) validOPRs.push(opr);
   }
 
@@ -213,10 +214,11 @@ export async function loadTeamBestOPRs(
   teamNumbers: number[],
   season: number,
   eventStartDate: string,
-  currentEventOPRs: Map<number, number>
+  currentEventOPRs: Map<number, number>,
+  useNp: boolean = false
 ): Promise<Map<number, number>> {
   const settled = await Promise.allSettled(
-    teamNumbers.map(num => fetchTeamPeakOPRBeforeDate(num, season, eventStartDate))
+    teamNumbers.map(num => fetchTeamPeakOPRBeforeDate(num, season, eventStartDate, useNp))
   );
   const result = new Map<number, number>();
   teamNumbers.forEach((num, i) => {

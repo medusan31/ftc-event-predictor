@@ -37,7 +37,7 @@ export interface RawEventTeamStats {
   losses: number;
   ties: number;
   rp: number;
-  opr?: { totalPoints?: number };
+  opr?: { totalPoints?: number; totalPointsNp?: number };
 }
 
 export interface RawEventTeam {

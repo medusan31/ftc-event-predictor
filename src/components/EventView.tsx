@@ -25,54 +25,54 @@ const EventView: React.FC<EventViewProps> = ({ eventCode, season, onTeamClick })
   const [loadingOPRs, setLoadingOPRs] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('predicted');
+  const [oprMode, setOprMode] = useState<'total' | 'np'>('total');
 
+  // Effect 1: fetch event data (re-runs only on event/season change)
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
+    setError(null);
+    setEventData(null);
+    setTeamOPRs(new Map());
 
-    const run = async () => {
-      setLoading(true);
-      setError(null);
-      setEventData(null);
-      setTeamOPRs(new Map());
-
-      try {
-        const data = await getEventDetails(eventCode, season);
-        if (cancelled) return;
-        setEventData(data);
-        setLoading(false);
-
-        // Collect all unique team numbers from matches
-        const teamNums = new Set<number>();
-        for (const m of data.matches ?? []) {
-          for (const t of m.teams ?? []) teamNums.add(t.teamNumber);
-        }
-
-        // Build current-event OPR map from team stats
-        const currentEventOPRs = new Map<number, number>();
-        for (const t of data.teams ?? []) {
-          const opr = t.stats?.opr?.totalPoints;
-          if (typeof opr === 'number' && opr > 0) {
-            currentEventOPRs.set(t.teamNumber, opr);
-          }
-        }
-
-        setLoadingOPRs(true);
-        const best = await loadTeamBestOPRs(Array.from(teamNums), season, data.start, currentEventOPRs);
-        if (cancelled) return;
-        setTeamOPRs(best);
-      } catch (err) {
+    getEventDetails(eventCode, season)
+      .then(data => { if (!cancelled) { setEventData(data); setLoading(false); } })
+      .catch(err => {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : 'Failed to load event');
           setLoading(false);
         }
-      } finally {
-        if (!cancelled) setLoadingOPRs(false);
-      }
-    };
+      });
 
-    run();
     return () => { cancelled = true; };
   }, [eventCode, season]);
+
+  // Effect 2: compute blended OPRs (re-runs when event data loads OR oprMode toggles)
+  useEffect(() => {
+    if (!eventData) return;
+    let cancelled = false;
+
+    const teamNums = new Set<number>();
+    for (const m of eventData.matches ?? []) {
+      for (const t of m.teams ?? []) teamNums.add(t.teamNumber);
+    }
+
+    const useNp = oprMode === 'np';
+    const currentEventOPRs = new Map<number, number>();
+    for (const t of eventData.teams ?? []) {
+      const oprObj: any = t.stats?.opr;
+      const opr = useNp ? oprObj?.totalPointsNp : oprObj?.totalPoints;
+      if (typeof opr === 'number' && opr > 0) currentEventOPRs.set(t.teamNumber, opr);
+    }
+
+    setLoadingOPRs(true);
+    loadTeamBestOPRs(Array.from(teamNums), season, eventData.start, currentEventOPRs, useNp)
+      .then(best => { if (!cancelled) setTeamOPRs(best); })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingOPRs(false); });
+
+    return () => { cancelled = true; };
+  }, [eventData, oprMode, season]);
 
   const qualMatches = useMemo(() => {
     if (!eventData?.matches) return [];
@@ -264,22 +264,40 @@ const EventView: React.FC<EventViewProps> = ({ eventCode, season, onTeamClick })
             </div>
           </div>
 
-          {hasResults && (
-            <div className="view-toggle-group">
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="view-toggle-group" style={{ fontSize: '11px' }}>
               <button
-                className={`view-toggle-btn${viewMode === 'predicted' ? ' active-predicted' : ''}`}
-                onClick={() => setViewMode('predicted')}
+                className={`view-toggle-btn${oprMode === 'total' ? ' active-predicted' : ''}`}
+                onClick={() => setOprMode('total')}
+                title="OPR including opponent penalty bonuses"
               >
-                🔮 Predicted
+                w/ Pen
               </button>
               <button
-                className={`view-toggle-btn${viewMode === 'actual' ? ' active-actual' : ''}`}
-                onClick={() => setViewMode('actual')}
+                className={`view-toggle-btn${oprMode === 'np' ? ' active-team' : ''}`}
+                onClick={() => setOprMode('np')}
+                title="OPR excluding opponent penalty bonuses (matches FTCScout)"
               >
-                📊 Actual
+                No Pen
               </button>
             </div>
-          )}
+            {hasResults && (
+              <div className="view-toggle-group">
+                <button
+                  className={`view-toggle-btn${viewMode === 'predicted' ? ' active-predicted' : ''}`}
+                  onClick={() => setViewMode('predicted')}
+                >
+                  🔮 Predicted
+                </button>
+                <button
+                  className={`view-toggle-btn${viewMode === 'actual' ? ' active-actual' : ''}`}
+                  onClick={() => setViewMode('actual')}
+                >
+                  📊 Actual
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
