@@ -23,10 +23,18 @@ As an FTC sweat FTCScout and its data has always been interesting and helpful to
 - **More Color Themes** - No light mode though because just no.
 
 - # Future Updates
-- Clicking on teams to see all their events including their upcoming events and being able to then click on their events and etc...
-- A team search
 - A seperate scouting program in this same project for accesibility
 - Graphs because <img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/78d5e1b2-c8fe-4edf-8f0d-b642025603a7" />
+
+## Changelog
+
+### V0.9.9 → V1.0.0
+- **CSV export** — export match predictions and rankings panels as .csv files (Excel-compatible), including an accuracy column
+- **Team drill-down** — click any team number to view their season page with Season Best OPR, FTCScout link, and full event list
+- **Team search** — toggle between event and team search in the search bar, with live autocomplete by team name or number
+- **OPR mode toggle** — switch between w/ Pen (totalPoints) and No Pen (totalPointsNp) OPR, affecting all predictions instantly
+- **Home button** — clicking the app title returns to the home screen from anywhere
+- **Season Best OPR fix** — corrected to use no-penalty OPR, now matches FTCScout's displayed value exactly
 
 
 ---
@@ -119,3 +127,11 @@ All data is fetched live from the [FTCScout public GraphQL API](https://api.ftcs
 - React 17 + TypeScript
 - FTCScout GraphQL API (via native `fetch`)
 - Pure CSS neon theme (no UI library)
+
+---
+
+## About
+
+FTC Event Predictor is a web app for predicting match outcomes and team rankings at FIRST Tech Challenge events. It pulls live data directly from the FTCScout API and uses an OPR-based prediction engine — with the equation written by me — that blends a team's current event performance with their season-best prior OPR to produce more accurate match predictions. The app supports toggling between penalty-inclusive and no-penalty OPR modes, team drill-down pages, CSV exports, and a live team/event search.
+
+Coded by Claude.
