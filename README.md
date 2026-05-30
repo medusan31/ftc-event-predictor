@@ -27,7 +27,7 @@ A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OP
 ### 2. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ftc-event-predictor.git
+git clone https://github.com/medusan31/ftc-event-predictor.git
 cd ftc-event-predictor
 ```
 
