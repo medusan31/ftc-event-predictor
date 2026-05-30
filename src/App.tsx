@@ -26,7 +26,11 @@ const App: React.FC = () => {
       <header className="app-header">
         <div className="header-content">
           <span className="header-icon">&#9889;</span>
-          <div className="header-text">
+          <div
+            className="header-text"
+            onClick={() => { setSelectedEvent(null); setSelectedTeam(null); }}
+            style={{ cursor: 'pointer' }}
+          >
             <h1 className="app-title">FTC EVENT PREDICTOR</h1>
             <p className="app-subtitle">OPR-based match outcome prediction</p>
           </div>
