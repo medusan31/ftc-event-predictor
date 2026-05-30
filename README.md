@@ -4,6 +4,8 @@ A web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive
 
 **Live at: https://medusan31.github.io/ftc-event-predictor/**
 
+> ⚠️ **Predicted rankings are not accurate representations of real FTC rankings.** Real FTC rankings are determined by Ranking Points (RP), which reward autonomous performance, endgame bonuses, and other game-specific criteria. This app predicts rankings using a W/L/T system, with AOPR used to break ties between teams with the same record. Match-level win predictions (who beats who) are significantly more reliable than the predicted rank order.
+
 # Why?
 As an FTC sweat FTCScout and its data has always been interesting and helpful to me, and I never thought much past it, but when I started hyper following FRC I learned about all the programs they have like statbotics, which heavily inspired this project, and thought to myself, "Why doesn't something that predicts events based on Strength of Schedule exist for FTC?" I brainstormed a bit and settled on an algorithm that averages a team's peak end of event opr from earlier in the season and their OPR from the event being predicted/simulated to create their AOPR (average opr) and for each match added up the average opr of the two bots on each alliance and weighed them against the other. Issue is, I suck at coding, sooooo I made Claude do everything for me. That's pretty much it.
 
