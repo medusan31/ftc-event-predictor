@@ -1,12 +1,18 @@
+If the setup here is too complicated just do the prerequisites clone the repo then open vscode and give copilot this readme. Ask it to finish all this for you and it should work. If the localhost still wont run properly at the end make sure the dev server is running, and that should be it!
+
 # FTC Event Predictor
 
-A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive Power Rating) data from [FTCScout](https://ftcscout.org).
+A web app that predicts FIRST Tech Challenge match outcomes using OPR (Offensive Power Rating) data from [FTCScout](https://ftcscout.org).
+
+# Why?
+As an FTC sweat FTCScout and its data has always been interesting and helpful to me, and I never thought much past it, but when I started hyper following FRC I learned about all the programs they have like statbotics, which heavily inspired this project, and thought to myself, "Why doesn't something that predicts events based on Strength of Schedule exist for FTC?" I brainstormed a bit and settled on an algorithm that averages a team's peak end of event opr from earlier in the season and their OPR from the event being predicted/simulated to create their AOPR (average opr) and for each match added up the average opr of the two bots on each alliance and weighed them against the other. Issue is, I suck at coding, sooooo I made Claude do everything for me. That's pretty much it.
+
 
 ## Features
 
 - **Live event search** — search by event name or code (e.g. `FTCCMP1LOVE`)
 - **Season selector** — 2021-2022 through 2025-2026
-- **OPR-based match predictions** — uses each team's season-best OPR from events played *before* the one being simulated, so retroactive simulations are fair
+- **OPR-based match predictions** — uses each team's season-best OPR from events played *before* the one being simulated averaged with the OPR from the event being simulated, but *does not* use match scores from the simulated event, so retroactive simulations are fair
 - **Alliance score prediction** — combined OPR of red vs blue alliance shown for every qual match
 - **Win probability** — sigmoid-based confidence % per match
 - **Prediction accuracy badge** — shows % of correct predictions for completed events
@@ -14,6 +20,14 @@ A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OP
 - **Actual rankings** — pulled directly from FTCScout's official qual standings (rank, W/L/T, RP)
 - **Surrogate-aware** — surrogate match appearances don't count toward a team's predicted ranking
 - **Neon UI** — dark theme with cyan/pink/blue glow effects
+- **More Color Themes** - No light mode though because just no.
+
+- # Future Updates
+- Clicking on teams to see all their events including their upcoming events and being able to then click on their events and etc...
+- A team search
+- A seperate scouting program in this same project for accesibility
+- Graphs because <img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/78d5e1b2-c8fe-4edf-8f0d-b642025603a7" />
+
 
 ---
 
@@ -27,7 +41,7 @@ A neon-themed web app that predicts FIRST Tech Challenge match outcomes using OP
 ### 2. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ftc-event-predictor.git
+git clone https://github.com/medusan31/ftc-event-predictor.git
 cd ftc-event-predictor
 ```
 
