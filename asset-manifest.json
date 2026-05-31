@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/ftc-event-predictor/static/css/main.1ff86a8b.chunk.css",
+    "main.js": "/ftc-event-predictor/static/js/main.0793a90c.chunk.js",
+    "main.js.map": "/ftc-event-predictor/static/js/main.0793a90c.chunk.js.map",
+    "runtime-main.js": "/ftc-event-predictor/static/js/runtime-main.ad56c673.js",
+    "runtime-main.js.map": "/ftc-event-predictor/static/js/runtime-main.ad56c673.js.map",
+    "static/js/2.9ba0ce9e.chunk.js": "/ftc-event-predictor/static/js/2.9ba0ce9e.chunk.js",
+    "static/js/2.9ba0ce9e.chunk.js.map": "/ftc-event-predictor/static/js/2.9ba0ce9e.chunk.js.map",
+    "index.html": "/ftc-event-predictor/index.html",
+    "static/css/main.1ff86a8b.chunk.css.map": "/ftc-event-predictor/static/css/main.1ff86a8b.chunk.css.map",
+    "static/js/2.9ba0ce9e.chunk.js.LICENSE.txt": "/ftc-event-predictor/static/js/2.9ba0ce9e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ad56c673.js",
+    "static/js/2.9ba0ce9e.chunk.js",
+    "static/css/main.1ff86a8b.chunk.css",
+    "static/js/main.0793a90c.chunk.js"
+  ]
+}
